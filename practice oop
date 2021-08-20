@@ -1,0 +1,44 @@
+ {
+    name: 'Samir',
+    age: 27,
+    favoriteBooks:[
+      {title: 'The Iliad'},
+      {title: 'The Brothers Karamazov'}
+    ]
+  },
+
+
+
+
+  favortiebooks object has an array??
+
+
+
+    {
+    name: "Tyrone",
+    personal: {
+      age: 33,
+      hobbies: ["Bicycling", "Camping"]
+    }
+  },
+
+  hobbies is an property
+
+
+  
+  
+  .map(personal)
+  
+  [ { age: 33, hobbies: [ 'Bicycling', 'Camping' ] },                                                            
+  { age: 25, hobbies: [ 'Guitar', 'Reading', 'Gardening' ] },                                                  
+  { age: 36, hobbies: [ 'Comics', 'Chess', 'Legos' ] } ] 
+
+
+
+  .map(favbooks)
+
+  [ [ { title: 'The Iliad' }, { title: 'The Brothers Karamazov' } ],                                             
+  [ { title: 'Tenth of December' },                                                                            
+    { title: 'Cloud Atlas' },                                                                                  
+    { title: 'One Hundred Years of Solitude' } ],                                                              
+  [ { title: 'Candide' } ] ] 
