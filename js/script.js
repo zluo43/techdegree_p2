@@ -3,26 +3,21 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-
-
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
-
-
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
 
-//add a search box 
 
+
+//cosnt declaration for this project
 const header=document.querySelector('.header');
-const ul=document.querySelector('.student-list');
+
+const linkList=document.querySelector('.link-list');
+const studentList=document.querySelector('.student-list');
 const h2=document.querySelector('h2');
+
+//search box element declaration and creation 
 const label=document.createElement('label');
 label.className='student-search';
 const span=document.createElement('span');
@@ -36,16 +31,7 @@ search.innerHTML=`<img src="img/icn-search.svg" alt="Search icon">`;
 label.appendChild(input);
 label.appendChild(search);
 header.appendChild(label);
-
-
-
-
-
-
-
-// const ul=document.querySelector('.student-list');
-const li=ul.children;
-//const names=li.querySelector('h3'); //not able to select tho 
+const li=studentList.children;
 
 
 
@@ -55,11 +41,11 @@ const li=ul.children;
 
 
 
+//create a showpage function 
 
 function showPage(list,page) {
    const startIndex=(page*9)-9;
    const endIndex=page*9
-   const studentList=document.querySelector('.student-list');
    studentList.innerHTML='';
 
    for (let i=0;i<list.length;i++) {
@@ -101,69 +87,106 @@ This function will create and insert/append the elements needed for the paginati
 */
 function addPagination(list) {
    // create a variable to calculate the number of pages needed
-   var numOfPages=Math.ceil(list.length/9);
-   var linkList=document.querySelector('.link-list');
-   linkList.innerHTML='';
-   for (let i=1;i<=numOfPages;i++) {
-      var button=`<li>
-                     <button type="button">${i}</button>
-                  </li>`
-   linkList.insertAdjacentHTML('beforeend',button);
-   };
-   const b=document.querySelector('button');
-   b.className='active';
-   
-
-
-
-
-};
-
-const linklist=document.querySelector('.link-list');
-linklist.addEventListener('click',(e)=>{
-   const button=e.target;
-   if (button.tagName='button') {
-      var first_active=document.querySelector('.active');
-      first_active.className='';
-      button.className='active';
-      //console.log(button.textContent);
-      showPage(data,parseInt(button.textContent));
-
-
-
+   if (list.length!==0){
+      const numOfPages=Math.ceil(list.length/9);
+      linkList.innerHTML='';
+      for (let i=1;i<=numOfPages;i++) {
+         var button=`<li>
+                        <button type="button">${i}</button>
+                     </li>`
+      linkList.insertAdjacentHTML('beforeend',button);
+      };
+      
+      //using querySelector bc it only selects the first element 
+      //setting the first pagination button to "active" class
+      const first_page_button=document.querySelector('.pagination button');
+      first_page_button.className='active';
+   }else{
+      linkList.innerHTML='';
 
    }
-
-
-
-
-})
+   linkList.addEventListener('click',(e)=>{
+      const button=e.target;
+      if (button.tagName='button') {
+         const first_active=document.querySelector('.active');
+         //remove the first active status
+         first_active.className='';
+         button.className='active';
+         showPage(list,parseInt(button.textContent));
+   
+   }});
+   
+      
+};
 
 addPagination(data);
 
 
 
 
-
-
-// Call functions
-
 //add a search filter here 
+
+input.addEventListener('submit',(e)=>{
+   const search_term=e.target.value.toLowerCase();
+   let new_data=[];
+   data.forEach(element=>{
+      //onsole.log(element);
+      let name=element.name.first+element.name.last;
+      
+      if (name.toLowerCase().includes(search_term)){
+         new_data.push(element);
+      };
+   });
+   console.log(new_data.length)
+   
+   //Since showPage function clears the innerHTML at everycall, I have to put this before
+   //the next if statement in order to display "no results found"
+   //Seems like a clumsy way; Is there any better way to do it?
+   showPage(new_data,1);
+   addPagination(new_data); 
+   
+   
+   if (new_data.length===0){
+      console.log('here');
+      studentList.innerHTML='No results found'
+
+   }
+
+
+
+}
+
+);
+
+
 input.addEventListener('keyup',(e)=>{
-   let term=e.target.value.toLowerCase();
-   const li=ul.querySelectorAll('li');
-   let arr=Array.from(li);
-   const new_list=[]; 
-   arr.forEach(function(name){
-      const names=name.querySelector('h3').textContent;
-      if (names.toLowerCase().indexOf(term)===-1) {
-         name.style.display='None';
-         counter=counter+1;
+   const search_term=e.target.value.toLowerCase();
+   let new_data=[];
+   data.forEach(element=>{
+      
+      let name=element.name.first+element.name.last;
+      
+      if (name.toLowerCase().includes(search_term)){
+         new_data.push(element);
+      };
+   });
+   //console.log(new_data.length)
+   
+   //Since showPage function clears the innerHTML at everycall, I have to put this before
+   //the next if statement in order to display "no results found"
+   //Seems like a clumsy way; Is there any better way to do it?
+   showPage(new_data,1);
+   addPagination(new_data); 
+   
+   
+   if (new_data.length===0){
+      console.log('here');
+      studentList.innerHTML='No results found'
 
-         //addPagination(data.length)
+   }
 
 
-      } else if (term==='') {
-         name.style.display='block' };
-      });
-   });   
+
+}
+
+);
